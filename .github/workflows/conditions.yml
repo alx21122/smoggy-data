@@ -18,9 +18,7 @@ jobs:
 
       - name: install
         run: |
-          python -m pip install --upgrade pip
           pip install ecmwf-opendata cfgrib xarray numpy pillow eccodes
-          python -m eccodes selfcheck
           python -m cfgrib selfcheck
 
       - name: build PNG
@@ -28,10 +26,8 @@ jobs:
 
       - name: commit
         run: |
-          git config user.name  "smoggy-bot"
+          git config user.name "smoggy-bot"
           git config user.email "bot@smoggyapp.com"
           git add conditions
-          if git diff --staged --quiet; then
-            echo "no change"
-          else
-            git commit -m "condi
+          git commit -m "conditions" || echo "no change"
+          git push || echo "nothing to push"

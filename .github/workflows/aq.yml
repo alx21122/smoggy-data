@@ -1,22 +1,4 @@
-<!DOCTYPE html>
-<html lang="el">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>aq.yml</title>
-<style>
-  body{margin:0;background:#0e1116;color:#e6edf3;font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif}
-  .bar{padding:12px 14px;background:#161b22;border-bottom:1px solid #30363d;position:sticky;top:0}
-  .bar b{color:#44aaff}
-  .bar span{color:#8b949e}
-  pre{margin:0;padding:14px;white-space:pre;overflow-x:auto;
-      font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-      color:#e6edf3;-webkit-user-select:text;user-select:text}
-</style>
-</head>
-<body>
-<div class="bar"><b>aq.yml</b> &middot; <span>&#8594; .github/workflows/aq.yml</span></div>
-<pre>name: aq
+name: aq
 
 on:
   workflow_dispatch:
@@ -43,6 +25,3 @@ jobs:
           git add aq-forecast
           git commit -m "aq snapshot" || echo "no change"
           git push || echo "nothing to push"
-</pre>
-</body>
-</html>

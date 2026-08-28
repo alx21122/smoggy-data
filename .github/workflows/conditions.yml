@@ -39,7 +39,7 @@ jobs:
             "40 8 * * *")  echo "EXPECTED_CYCLE_HOUR=6"  >> "$GITHUB_ENV" ;;
             "40 14 * * *") echo "EXPECTED_CYCLE_HOUR=12" >> "$GITHUB_ENV" ;;
             "40 20 * * *") echo "EXPECTED_CYCLE_HOUR=18" >> "$GITHUB_ENV" ;;
-            *) echo "::notice:: no scheduled-cron match (manual/other trigger) â€” make_conditions.py falls back to its own nearest-slot calculation" ;;
+            *) echo "::notice:: no scheduled-cron match (manual/other trigger) - make_conditions.py falls back to its own nearest-slot calculation" ;;
           esac
 
       - name: build PNG
@@ -65,7 +65,7 @@ jobs:
             git add conditions/forecast
           else
             git checkout -- conditions/forecast 2>/dev/null || true
-            echo "::warning:: forecast status=$status Ã¢â‚¬â€ conditions/forecast reset to HEAD, not committed"
+            echo "::warning:: forecast status=$status - conditions/forecast reset to HEAD, not committed"
           fi
 
           git commit -m "conditions" || echo "no change"

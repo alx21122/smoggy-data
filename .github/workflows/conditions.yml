@@ -3,10 +3,7 @@ name: conditions
 on:
   workflow_dispatch:
   schedule:
-    - cron: '40 2 * * *'
-    - cron: '40 8 * * *'
-    - cron: '40 14 * * *'
-    - cron: '40 20 * * *'
+    - cron: '*/30 * * * *'
 
 permissions:
   contents: write
@@ -26,22 +23,6 @@ jobs:
           pip install ecmwf-opendata cfgrib xarray numpy pillow eccodes
           python -m cfgrib selfcheck
 
-      # Alex 28/08/26: to github.event.schedule periexei AKRIVOS poio apo ta
-      # 4 parapano cron slots (xorista TWRA) trigger-are auto to run -- to
-      # metatrepoume se EXPECTED_CYCLE_HOUR gia to make_conditions.py, WSTE
-      # na MIN exartatai KATHOLOU apo poso kathisterise o runner. Manual
-      # (workflow_dispatch) den exei schedule -> kena, to script peftei
-      # ston diko tou wall-clock fallback (AMETABLITO, idio me prin).
-      - name: resolve expected cycle
-        run: |
-          case "${{ github.event.schedule }}" in
-            "40 2 * * *")  echo "EXPECTED_CYCLE_HOUR=0"  >> "$GITHUB_ENV" ;;
-            "40 8 * * *")  echo "EXPECTED_CYCLE_HOUR=6"  >> "$GITHUB_ENV" ;;
-            "40 14 * * *") echo "EXPECTED_CYCLE_HOUR=12" >> "$GITHUB_ENV" ;;
-            "40 20 * * *") echo "EXPECTED_CYCLE_HOUR=18" >> "$GITHUB_ENV" ;;
-            *) echo "::notice:: no scheduled-cron match (manual/other trigger) - make_conditions.py falls back to its own nearest-slot calculation" ;;
-          esac
-
       - name: build PNG
         run: python make_conditions.py
 
@@ -51,10 +32,17 @@ jobs:
           git config user.email "bot@smoggyapp.com"
 
           # AUTO: panta stage. An ftasame edo, to "build PNG" step idi
-          # petyxe (an to AUTO loop skoupsei, to script exit != 0, kai
-          # auto to step den trexei kan -- default GitHub Actions
-          # symperifora, kamia allagi xreiazetai edo).
+          # petyxe (an skoupsei PRAGMATIKA -- oxi "not ready yet" -- to
+          # script exit != 0, kai auto to step den trexei kan -- default
+          # GitHub Actions symperifora, kamia allagi xreiazetai edo).
           git add conditions/auto
+
+          # Alex 28/08/26 (polling redesign): to .last_auto_run kratai poio
+          # itan to teleftaio epityximeno AUTO cycle -- to make_conditions.py
+          # to xrisimopoiei gia na ypologisei to EPOMENO (+6h), MIDEN
+          # manteuma/offset piа. Den yparxei se "not ready yet" tick (den
+          # egrapse tipota neo) -- to "|| true" apotrepei na skasei to step.
+          git add .last_auto_run || true
 
           # FORECAST: stage MONO se rita "success". Se opoiodipote allo
           # status (failure / unrecovered / missing file) -> checkout piso

@@ -245,10 +245,17 @@ def run_forecast(locked_run_raw):
     petyxoun apo to IDIO run. Kathe apotyxia (opoudipote) = to yparxon
     conditions/forecast/ menei akrivos opws itan."""
     locked_run = ensure_utc(locked_run_raw)
+    # "Tomorrow" = current UTC calendar date +1 (i mera pou zitaei o xristis),
+    # OXI i imerominia tou locked ECMWF run -- an to run einai palio (π.χ.
+    # execution 25/08 02:40Z me latest run 24/08 18Z), to "avrio" tou run
+    # tha itan LATHOS mera. To locked_run xrisimopoieitai APOKLEISTIKA gia
+    # ton ypologismo step = target_valid - locked_run parakato.
     tomorrow = (dt.datetime.now(dt.timezone.utc).date() + dt.timedelta(days=1))
 
     uid = "%d_%d" % (os.getpid(),
                       int(dt.datetime.now(dt.timezone.utc).timestamp()))
+    # root-level (BASE_DIR = riza tou repo), EKTOS conditions/ -- POTE den
+    # piananontai apo "git add conditions/..."
     stage = os.path.join(BASE_DIR, ".forecast_stage_%s" % uid)
     backup = os.path.join(BASE_DIR, ".forecast_backup_%s" % uid)
     written = []
@@ -282,6 +289,8 @@ def run_forecast(locked_run_raw):
                     "run/step mismatch for %s (got run=%s valid=%s)" %
                     (target_valid, actual_run, actual_valid))
 
+            # IDIO pipeline me process_one -- read_grib / ct_state_multilevel /
+            # resample_to_mercator / state_to_rgba -- KAMIA allagi se fysiki.
             t_stack, rh_stack, lats, lons = read_grib(grib_target, LEVELS_HPA)
             state = sg.ct_state_multilevel(list(t_stack), list(rh_stack), LEVELS_HPA)
             merc = sg.resample_to_mercator(state, lats, lons, WIDTH, HEIGHT)
@@ -296,6 +305,16 @@ def run_forecast(locked_run_raw):
             raise ForecastFailure(
                 "only %d/8 valid times succeeded" % len(written))
 
+        # ---- Alex 27/08/26: RETENTION ton SIMERINON forecast PNG ----
+        # Ta 8 PNG tis SIMERINIS imeras katevikan XTHES os "Tomorrow".
+        # To atomic rename parakato antikathista OLOKLIRO ton fakelo, ara
+        # xoris auto to block tha xanontan akrivos ti stigmi pou ta
+        # xreiazomaste (Today slots pou den exoun akoma AUTO tile).
+        # KANONAS: to forecast/ kratai MONO Today + Tomorrow.
+        #   - simerina stamps -> antigrafontai apo to palio set sto stage
+        #   - xthesina kai palaiotera -> DEN antigrafontai (pefton me to rename)
+        #   - an to trexon run xanaeftiakse to idio stamp -> NIKAEI to neo
+        # MIDENIKO neo download. MIDEMIA epidrasi sto Tomorrow.
         today_prefix = dt.datetime.now(dt.timezone.utc).date().isoformat() + "T"
         kept = 0
         if os.path.isdir(FORECAST_OUTDIR):
@@ -309,6 +328,14 @@ def run_forecast(locked_run_raw):
                 kept += 1
         print("forecast retention: kratithikan", kept, "simerina PNG")
 
+        # ---- ATOMIC SWAP (root-level paths, idio filesystem -> os.rename
+        #      einai atomic) ----
+        # os.rename apaitei na yparxei o parent fakelos tou proorismou.
+        # Simera "tha" yparxei idi giati to AUTO loop (process_one) ton
+        # dimiourgei san side-effect tou dikou tou os.makedirs(OUTDIR) --
+        # ALLA auto einai implicit/eythrausto (an allaksei i seira klisis,
+        # i an kaneis kalesei pote to run_forecast() xechorista, spaei).
+        # EXPLICIT eggyisi edo, anexartita apo to AUTO:
         os.makedirs(os.path.dirname(FORECAST_OUTDIR), exist_ok=True)
 
         had_old = os.path.isdir(FORECAST_OUTDIR)
@@ -338,8 +365,13 @@ def run_forecast(locked_run_raw):
                     "publish failed, no previous set existed") from swap_err
 
     finally:
+        # staging: PANTA cleanup
         if os.path.isdir(stage):
             shutil.rmtree(stage, ignore_errors=True)
+        # backup: cleanup MONO an DEN eimaste sto unrecovered case
+        # (successful publish -> backup = palio, perito.
+        #  successful rollback -> backup path adeiase, asfales.
+        #  unrecovered -> MENEI epitides, idi typothike to path pio panw.)
         if not swap_failed_and_unrecovered and os.path.isdir(backup):
             shutil.rmtree(backup, ignore_errors=True)
 
@@ -365,6 +397,8 @@ def main():
         print("::warning:: AUTO: aoristo diktyako/server provlima (OXI "
               "sigouro 'den yparxei') -- ksanadokimazei sto epomeno tick. %s" % e)
     except Exception as e:
+        # PRAGMATIKO, mi anamenomeno sfalma (bug, kateklismeno GRIB, klp) --
+        # AYTO PREPEI na fainetai kokkino, oxi na katapinetai san "not ready".
         print("::error:: AUTO FAILED (mi anamenomeno):", type(e).__name__, e)
         traceback.print_exc()
         sys.exit(1)
@@ -373,14 +407,21 @@ def main():
         write_last_auto_run(locked_run)
         print("last_auto_run enimerothike ->", ensure_utc(locked_run).isoformat())
 
-    write_status("failure")
+    # ---- FORECAST: MONO otan yparxei FRESKO AUTO se AYTO to tick --
+    #      (den exei noima na xanaktrexei to forecast se kathe "not ready"
+    #      tick pou den evgale tipota neo). ----
+    write_status("failure")   # fail-safe default PRIN xekinisei to forecast
     if new_data:
         try:
             run_forecast(locked_run)
             write_status("success")
         except Exception as e:
+            # OXI mono ForecastFailure -- piastikan KAI network/ECMWF/IO errors
+            # pou tha mporousan na xefygoun apo to run_forecast().
             print("::warning:: FORECAST FAILED:", type(e).__name__, e)
             traceback.print_exc()
+            # DEN ginetai re-raise -> exit 0 -> to commit tou idi-etoimou AUTO
+            # trexei kanonika
     else:
         print("::notice:: FORECAST paraleiftike -- kanena neo AUTO cycle se auto to tick")
 

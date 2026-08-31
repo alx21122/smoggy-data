@@ -1,0 +1,53 @@
+name: conditions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '40 2,8,14,20 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: install
+        run: |
+          pip install ecmwf-opendata cfgrib xarray numpy pillow eccodes
+          python -m cfgrib selfcheck
+
+      - name: build PNG
+        run: python make_conditions.py
+
+      - name: commit
+        run: |
+          git config user.name "smoggy-bot"
+          git config user.email "bot@smoggyapp.com"
+
+          # AUTO: panta stage. An ftasame edo, to "build PNG" step idi
+          # petyxe (an to AUTO loop skoupsei, to script exit != 0, kai
+          # auto to step den trexei kan -- default GitHub Actions
+          # symperifora, kamia allagi xreiazetai edo).
+          git add conditions/auto
+
+          # FORECAST: stage MONO se rita "success". Se opoiodipote allo
+          # status (failure / unrecovered / missing file) -> checkout piso
+          # sto HEAD PRIN apo opoiodipote add, ostu o,ti mess emeine ston
+          # ephemeral disk na MIN ftasei pote se commit.
+          status=$(cat .forecast_status 2>/dev/null || echo "failure")
+          if [ "$status" = "success" ]; then
+            git add conditions/forecast
+          else
+            git checkout -- conditions/forecast 2>/dev/null || true
+            echo "::warning:: forecast status=$status â€” conditions/forecast reset to HEAD, not committed"
+          fi
+
+          git commit -m "conditions" || echo "no change"
+          git push || echo "nothing to push"

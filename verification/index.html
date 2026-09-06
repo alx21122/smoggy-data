@@ -1,0 +1,204 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>smoggy · data health</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#05070c;color:#eaf2ff;font-family:ui-monospace,'SF Mono',Menlo,monospace;
+ padding:14px;font-size:13px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+h1{font-size:15px;letter-spacing:1px}
+h1 .b1{color:#44aaff}h1 .bo{color:#ffd84a}
+.sub{font-size:11px;color:#7f93aa;margin-top:2px}
+.clk{font-size:12px;color:#44aaff;margin-top:4px;font-variant-numeric:tabular-nums}
+.clk .tz{color:#6f88a5;font-size:10.5px}
+.langs{display:flex;gap:4px;flex-shrink:0}
+.lb{background:#0d1525;border:1px solid rgba(68,170,255,.25);color:#8fa3bd;
+ border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:inherit}
+.lb.on{color:#44aaff;border-color:#44aaff;background:rgba(68,170,255,.12)}
+.banner{border-radius:12px;padding:11px 13px;margin-bottom:14px;border:1px solid}
+.banner.ok{background:rgba(43,255,85,.10);border-color:rgba(43,255,85,.45);color:#7dffa0}
+.banner.warn{background:rgba(255,216,74,.10);border-color:rgba(255,216,74,.45);color:#ffd84a}
+.banner.fail{background:rgba(255,80,80,.12);border-color:rgba(255,80,80,.5);color:#ff8a8a}
+.banner .t{font-size:15px;font-weight:700;letter-spacing:.5px}
+.banner ul{margin:7px 0 0 16px;font-size:11.5px;line-height:1.7}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.kpi{background:#0d1525;border:1px solid rgba(68,170,255,.16);border-radius:11px;padding:10px 12px}
+.kpi .k{font-size:10px;letter-spacing:1px;color:#7f93aa;text-transform:uppercase}
+.kpi .v{font-size:21px;font-weight:800;margin-top:4px}
+.g{color:#2BFF55}.y{color:#ffd84a}.r{color:#ff6b6b}
+h2{font-size:12px;letter-spacing:1.4px;color:#44aaff;text-transform:uppercase;margin:20px 0 3px}
+.h2s{font-size:11px;color:#7f93aa;margin-bottom:9px}
+.hdr,.row{display:flex;gap:2px;align-items:center}
+.hdr{margin-bottom:5px}
+.lab{width:44px;flex:0 0 44px;font-size:10.5px;color:#8fa3bd}
+.cell{flex:1 1 0;min-width:0;height:21px;border-radius:3px;background:#ff5252}
+.cell.p{background:#2BFF55}.cell.n{background:#26344a}
+.hc{flex:1 1 0;min-width:0;text-align:center;font-size:10px;color:#6f88a5}
+.row{margin-bottom:2px}
+.cnt{width:28px;flex:0 0 28px;text-align:right;font-size:10.5px;color:#8fa3bd}
+.leg{display:flex;gap:13px;flex-wrap:wrap;margin-top:10px;font-size:10.5px;color:#8fa3bd}
+.leg i{width:11px;height:11px;border-radius:2px;display:inline-block;vertical-align:-1px;margin-right:5px}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{text-align:left;font-size:10px;letter-spacing:1px;color:#44aaff;text-transform:uppercase;
+ padding:0 0 6px;border-bottom:1px solid rgba(68,170,255,.16)}
+th.r,td.r{text-align:right}
+td{padding:7px 0;border-bottom:1px solid rgba(68,170,255,.07);color:#cfe0f5}
+tr:last-child td{border-bottom:0}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.card{background:#0d1525;border:1px solid rgba(68,170,255,.16);border-radius:11px;
+ padding:11px 12px;margin-bottom:8px}
+.card .nm{font-size:13px;font-weight:700}
+.card .src{font-size:10px;color:#6f88a5;margin:1px 0 7px 14px}
+.tr2{display:flex;justify-content:space-between;gap:10px;padding:2px 0;font-size:11px}
+.tr2 .k{color:#7f93aa;flex-shrink:0}.tr2 .v{text-align:right;word-break:break-all}
+.mu{color:#5c7189}
+details{margin-top:7px}
+summary{font-size:10.5px;color:#44aaff;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+ "}
+details[open] summary::before{content:"- "}
+.ev{margin-top:6px;padding:7px 8px;background:#070c16;border-radius:8px;
+ font-size:10px;color:#8fa3bd;line-height:1.6;word-break:break-all}
+.note{background:#0d1525;border:1px solid rgba(68,170,255,.16);border-radius:11px;
+ padding:10px 12px;margin-top:13px;font-size:11.5px;color:#a9c0d8;line-height:1.65}
+.note.st{border-color:rgba(43,255,85,.3);color:#7dffa0}
+.foot{margin-top:18px;font-size:10px;color:#5c7189;line-height:1.7;text-align:center}
+</style></head><body><div class="wrap">
+<div class="top">
+ <div><h1><span class="b1">sm</span><span class="bo">o</span><span class="b1">ggy</span>
+  &middot; <span id="ttl"></span></h1><div class="clk" id="clk"></div>
+  <div class="sub" id="sub"></div></div>
+ <div class="langs">
+  <button class="lb" data-l="en">EN</button>
+  <button class="lb" data-l="el">EL</button>
+  <button class="lb" data-l="de">DE</button>
+ </div>
+</div>
+<div id="app"></div>
+<div class="foot">make_status.py &middot; <span id="ft"></span><br>
+ECMWF / Copernicus CAMS &middot; NASA GIBS &middot; Open-Meteo (CC BY 4.0)</div>
+</div>
+<script id="DATA" type="application/json">{"smi": {"coverage_pct": 62.3, "days": 14, "grid": [{"date": "2026-08-24", "label": "24/08", "cells": [1, 1, 1, 1, 1, 1, 1, 1], "present": 8, "missing_due": 0}, {"date": "2026-08-25", "label": "25/08", "cells": [1, 1, 1, 1, 1, 1, 1, 1], "present": 8, "missing_due": 0}, {"date": "2026-08-26", "label": "26/08", "cells": [1, 1, 1, 1, 1, 1, 0, 0], "present": 6, "missing_due": 2}, {"date": "2026-08-27", "label": "27/08", "cells": [0, 0, 1, 1, 1, 1, 0, 0], "present": 4, "missing_due": 4}, {"date": "2026-08-28", "label": "28/08", "cells": [0, 0, 0, 0, 0, 0, 0, 0], "present": 0, "missing_due": 8}, {"date": "2026-08-29", "label": "29/08", "cells": [0, 0, 0, 0, 0, 0, 0, 0], "present": 0, "missing_due": 8}, {"date": "2026-08-30", "label": "30/08", "cells": [0, 0, 0, 0, 0, 0, 0, 0], "present": 0, "missing_due": 8}, {"date": "2026-08-31", "label": "31/08", "cells": [1, 1, 0, 0, 1, 1, 0, 0], "present": 4, "missing_due": 4}, {"date": "2026-09-01", "label": "01/09", "cells": [1, 1, 1, 1, 1, 1, 1, 1], "present": 8, "missing_due": 0}, {"date": "2026-09-02", "label": "02/09", "cells": [0, 0, 1, 1, 1, 1, 1, 1], "present": 6, "missing_due": 2}, {"date": "2026-09-03", "label": "03/09", "cells": [0, 0, 1, 1, 1, 1, 1, 1], "present": 6, "missing_due": 2}, {"date": "2026-09-04", "label": "04/09", "cells": [0, 0, 1, 1, 1, 1, 1, 1], "present": 6, "missing_due": 2}, {"date": "2026-09-05", "label": "05/09", "cells": [1, 1, 1, 1, 1, 1, 1, 1], "present": 8, "missing_due": 0}, {"date": "2026-09-06", "label": "06/09", "cells": [1, 1, 2, 2, 2, 2, 2, 2], "present": 2, "missing_due": 0}], "slots": [0, 3, 6, 9, 12, 15, 18, 21], "missing_by_hour": {"0": 7, "3": 7, "6": 4, "9": 4, "12": 3, "15": 3, "18": 6, "21": 6}, "worst_hour": 0, "slot_cron": {"0": "08:40Z", "3": "08:40Z", "6": "14:40Z", "9": "14:40Z", "12": "20:40Z", "15": "20:40Z", "18": "02:40Z+1", "21": "02:40Z+1"}, "newest": "2026-09-06T03Z", "age_hours": 10.6, "files": 70, "bad_names": [], "corrupt": []}, "forecast": {"date": "2026-09-07", "slots": 8, "complete": true, "days_spanned": 1, "duplicate_hours": 0, "is_tomorrow": true, "bad_names": [], "corrupt": []}, "forecast_status": null, "aq": {"coverage_pct": 80.0, "rows": [{"date": "2026-08-24", "label": "24/08", "made_on": "23/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-25", "label": "25/08", "made_on": "24/08", "present": false, "due": true, "cities": null, "hours": null, "note": "absent"}, {"date": "2026-08-26", "label": "26/08", "made_on": "25/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-27", "label": "27/08", "made_on": "26/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-28", "label": "28/08", "made_on": "27/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-29", "label": "29/08", "made_on": "28/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-30", "label": "30/08", "made_on": "29/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-08-31", "label": "31/08", "made_on": "30/08", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-09-01", "label": "01/09", "made_on": "31/08", "present": false, "due": true, "cities": null, "hours": null, "note": "absent"}, {"date": "2026-09-02", "label": "02/09", "made_on": "01/09", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-09-03", "label": "03/09", "made_on": "02/09", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-09-04", "label": "04/09", "made_on": "03/09", "present": false, "due": true, "cities": null, "hours": null, "note": "absent"}, {"date": "2026-09-05", "label": "05/09", "made_on": "04/09", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-09-06", "label": "06/09", "made_on": "05/09", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}, {"date": "2026-09-07", "label": "07/09", "made_on": "06/09", "present": true, "due": true, "cities": 1000, "hours": 24, "note": ""}]}, "probes": {"enabled": true, "layers": {"clouds": {"status": "ok", "newest": "2026-09-06", "lag_slots": 0, "tries": [{"url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-06/GoogleMapsCompatible_Level9/2/1/2.jpg", "method": "GET", "asked_at": "2026-09-06T13:35:37Z", "got_at": "2026-09-06T13:35:37Z", "ms": 408, "http": 200, "bytes": 17763, "server_date": "Sun, 06 Sep 2026 13:35:37 GMT", "last_modified": null, "error": null, "refers_to": "2026-09-06", "verdict": "hit"}]}, "aod": {"status": "ok", "newest": "2026-09-06T12:00:00Z", "lag_slots": 0, "tries": [{"url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-06T12%3A00%3A00Z", "method": "GET", "asked_at": "2026-09-06T13:35:37Z", "got_at": "2026-09-06T13:35:39Z", "ms": 2266, "http": 200, "bytes": 86, "server_date": "Sun, 06 Sep 2026 13:35:39 GMT", "last_modified": "Sun, 06 Sep 2026 13:35:45 GMT", "error": null, "refers_to": "2026-09-06T12:00:00Z", "verdict": "hit"}]}, "dust": {"status": "ok", "newest": "2026-09-06T12:00:00Z", "lag_slots": 0, "tries": [{"url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-06T12%3A00%3A00Z", "method": "GET", "asked_at": "2026-09-06T13:35:39Z", "got_at": "2026-09-06T13:35:42Z", "ms": 2371, "http": 200, "bytes": 86, "server_date": "Sun, 06 Sep 2026 13:35:42 GMT", "last_modified": "Sun, 06 Sep 2026 13:35:47 GMT", "error": null, "refers_to": "2026-09-06T12:00:00Z", "verdict": "hit"}]}, "ecmwf": {"status": "stale", "newest": "2026-09-06 06z", "lag_slots": 1, "tries": [{"url": "https://data.ecmwf.int/forecasts/20260906/12z/ifs/0p25/oper/", "method": "HEAD", "asked_at": "2026-09-06T13:35:42Z", "got_at": "2026-09-06T13:35:44Z", "ms": 2200, "http": 404, "bytes": 0, "server_date": null, "last_modified": null, "error": "HTTP 404", "refers_to": "2026-09-06 12z", "verdict": "absent"}, {"url": "https://data.ecmwf.int/forecasts/20260906/06z/ifs/0p25/oper/", "method": "HEAD", "asked_at": "2026-09-06T13:35:44Z", "got_at": "2026-09-06T13:35:45Z", "ms": 1350, "http": 200, "bytes": 0, "server_date": null, "last_modified": "Sun, 06 Sep 2026 12:27:00 GMT", "error": null, "refers_to": "2026-09-06 06z", "verdict": "hit"}]}}}, "generated_at": "2026-09-06T13:35:36Z", "state": "fail", "fails": [{"c": "empty_days", "n": 3, "v": "28/08, 29/08, 30/08"}], "warns": [{"c": "slot_pattern", "v": "00Z", "n": 7, "v2": "08:40Z"}, {"c": "aq_missing", "v": "25/08, 01/09, 04/09"}, {"c": "layer_stale", "v": "ecmwf", "n": 1}], "selftest_passed": true}</script>
+<script id="I18N" type="application/json">{"en": {"title": "data health", "checked": "checked", "files": "SMI files", "ok": "ALL CLEAR", "warn": "ATTENTION", "fail": "PROBLEMS", "cov": "SMI coverage %dd", "aqcov": "AQI coverage", "newest": "newest SMI", "fctom": "forecast tomorrow", "smi_h": "SMI · conditions/auto", "smi_s": "8 fixed 3-hour slots per day, UTC", "lg_yes": "present", "lg_no": "MISSING", "lg_nd": "not due yet", "lay_h": "Layers · third parties", "lay_s": "we request exactly what the app requests — availability, not storage", "aq_h": "AQI · aq-forecast", "aq_s": "ONE file per day holding 24 hourly values — not 3-hour slots", "t_for": "valid for", "t_made": "made on", "t_cont": "contents", "aq_note": "The file dated X is made the <b>previous</b> day (target = tomorrow). A gap on X means the cron of X-1 failed.", "refers": "refers to", "asked": "requested", "answered": "answered", "took": "took", "pub": "published (server)", "nopub": "server does not say", "url": "URL", "http": "HTTP", "size": "size", "evidence": "evidence", "cities": "cities", "no_probe": "Probes did not run (--no-net or no network). No claim is made about third parties — better empty than false.", "pattern": "<b>Pattern:</b> slot <b>%s</b> is missing <b>%d times</b> in the last %d days — responsible cron <b>%s</b>. Check below whether ECMWF had published that run at the time.", "selftest_ok": "Self-test passed: the scanner was verified against synthetic data with known answers.", "foot": "read-only · writes only inside verification/", "now": "local time", "tz_note": "The clock and the check time above are shown in <b>your device's timezone</b>, wherever you are. Everything in the grids and tables stays in <b>UTC</b>, because the data slots themselves are defined in UTC — converting them would misname the slots.", "st": {"ok": "current", "stale": "lagging", "absent": "DOES NOT EXIST", "blocked": "could not check", "unreachable": "could not check", "upstream": "could not check", "error": "could not check", "unknown": "unknown"}, "m": {"empty_days": "%(n)d completely empty days: %(v)s", "no_smi": "no SMI data at all", "bad_names": "%(n)d invalid filenames in auto/", "corrupt": "%(n)d empty or invalid-header PNG files in auto/", "stale_data": "SMI data is %(v)sh old", "aging_data": "SMI data is %(v)sh old", "no_forecast": "no forecast (Tomorrow empty)", "forecast_partial": "forecast incomplete (%(n)d/8)", "forecast_wrong_day": "forecast is for %(v)s, not tomorrow", "slot_pattern": "slot %(v)s missing %(n)d times (cron %(v2)s)", "aq_missing": "AQI missing: %(v)s", "forecast_bad_names": "%(n)d invalid filenames in forecast/", "forecast_corrupt": "%(n)d empty or invalid-header PNG files in forecast/", "aq_invalid": "AQI file present but unreadable: %(v)s", "forecast_status": "last forecast: %(v)s", "layer_absent": "%(v)s: checked and DOES NOT exist", "layer_uncheckable": "%(v)s: could not check (%(v2)s)", "layer_stale": "%(v)s: lagging %(n)d slots"}}, "el": {"title": "υγεία δεδομένων", "checked": "έλεγχος", "files": "αρχεία SMI", "ok": "ΟΛΑ ΚΑΘΑΡΑ", "warn": "ΠΡΟΣΟΧΗ", "fail": "ΣΦΑΛΜΑΤΑ", "cov": "SMI κάλυψη %dd", "aqcov": "AQI κάλυψη", "newest": "νεότερο SMI", "fctom": "forecast αύριο", "smi_h": "SMI · conditions/auto", "smi_s": "8 σταθερά 3ωρα ανά μέρα, σε UTC", "lg_yes": "υπάρχει", "lg_no": "ΛΕΙΠΕΙ", "lg_nd": "δεν οφείλει ακόμα", "lay_h": "Layers · τρίτοι", "lay_s": "ζητάμε ακριβώς ό,τι ζητάει η εφαρμογή — διαθεσιμότητα, όχι αποθήκευση", "aq_h": "AQI · aq-forecast", "aq_s": "ΕΝΑ αρχείο ανά μέρα με 24 ωριαίες τιμές — όχι 3ωρα slots", "t_for": "ισχύει για", "t_made": "φτιάχτηκε", "t_cont": "περιεχόμενο", "aq_note": "Το αρχείο με ημερομηνία X φτιάχνεται την <b>προηγούμενη</b> μέρα (target = αύριο). Κενό στην X σημαίνει ότι απέτυχε το cron της X-1.", "refers": "αναφέρεται σε", "asked": "ζητήθηκε", "answered": "απάντησε", "took": "χρόνος", "pub": "δημοσίευση (server)", "nopub": "δεν το δίνει ο server", "url": "URL", "http": "HTTP", "size": "μέγεθος", "evidence": "στοιχεία", "cities": "πόλεις", "no_probe": "Τα probes δεν έτρεξαν (--no-net ή χωρίς δίκτυο). Κανένας ισχυρισμός για τους τρίτους — καλύτερα κενά παρά ψεύτικα.", "pattern": "<b>Μοτίβο:</b> το slot <b>%s</b> λείπει <b>%d φορές</b> στις τελευταίες %d μέρες — υπεύθυνο cron <b>%s</b>. Δες παρακάτω αν το ECMWF είχε δημοσιεύσει το run εκείνη την ώρα.", "selftest_ok": "Το self-test πέρασε: ο σαρωτής επαληθεύτηκε με συνθετικά δεδομένα γνωστής απάντησης.", "foot": "read-only · γράφει μόνο στο verification/", "now": "τοπική ώρα", "tz_note": "Το ρολόι και η ώρα ελέγχου παραπάνω είναι στη <b>ζώνη ώρας της συσκευής σου</b>, όπου κι αν βρίσκεσαι. Ό,τι είναι στα πλέγματα και στους πίνακες μένει σε <b>UTC</b>, γιατί τα ίδια τα data slots ορίζονται σε UTC — η μετατροπή τους θα άλλαζε το όνομα του slot.", "st": {"ok": "ενήμερο", "stale": "καθυστερεί", "absent": "ΔΕΝ ΥΠΑΡΧΕΙ", "blocked": "δεν ελέγχθηκε", "unreachable": "δεν ελέγχθηκε", "upstream": "δεν ελέγχθηκε", "error": "δεν ελέγχθηκε", "unknown": "άγνωστο"}, "m": {"empty_days": "%(n)d μέρες τελείως κενές: %(v)s", "no_smi": "κανένα SMI δεδομένο", "bad_names": "%(n)d άκυρα filenames στο auto/", "corrupt": "%(n)d κενά ή με άκυρο header PNG στο auto/", "stale_data": "τα SMI δεδομένα είναι %(v)sh παλιά", "aging_data": "τα SMI δεδομένα είναι %(v)sh παλιά", "no_forecast": "κανένα forecast (Tomorrow κενό)", "forecast_partial": "forecast ατελές (%(n)d/8)", "forecast_wrong_day": "forecast για %(v)s, όχι για αύριο", "slot_pattern": "slot %(v)s λείπει %(n)d φορές (cron %(v2)s)", "aq_missing": "AQI λείπει: %(v)s", "forecast_bad_names": "%(n)d άκυρα filenames στο forecast/", "forecast_corrupt": "%(n)d κενά ή με άκυρο header PNG στο forecast/", "aq_invalid": "AQI αρχείο υπάρχει αλλά δεν διαβάζεται: %(v)s", "forecast_status": "τελευταίο forecast: %(v)s", "layer_absent": "%(v)s: ελέγχθηκε και ΔΕΝ υπάρχει", "layer_uncheckable": "%(v)s: δεν ελέγχθηκε (%(v2)s)", "layer_stale": "%(v)s: καθυστερεί %(n)d slots"}}, "de": {"title": "Datenzustand", "checked": "geprüft", "files": "SMI-Dateien", "ok": "ALLES IN ORDNUNG", "warn": "ACHTUNG", "fail": "FEHLER", "cov": "SMI-Abdeckung %dd", "aqcov": "AQI-Abdeckung", "newest": "neueste SMI", "fctom": "Vorhersage morgen", "smi_h": "SMI · conditions/auto", "smi_s": "8 feste 3-Stunden-Slots pro Tag, UTC", "lg_yes": "vorhanden", "lg_no": "FEHLT", "lg_nd": "noch nicht fällig", "lay_h": "Layer · Dritte", "lay_s": "wir fragen genau das ab, was die App anfordert — Verfügbarkeit, keine Speicherung", "aq_h": "AQI · aq-forecast", "aq_s": "EINE Datei pro Tag mit 24 Stundenwerten — keine 3-Stunden-Slots", "t_for": "gültig für", "t_made": "erstellt am", "t_cont": "Inhalt", "aq_note": "Die Datei mit Datum X wird am <b>Vortag</b> erstellt (target = morgen). Eine Lücke bei X bedeutet, dass der Cron von X-1 fehlgeschlagen ist.", "refers": "gilt für", "asked": "angefragt", "answered": "geantwortet", "took": "Dauer", "pub": "veröffentlicht (Server)", "nopub": "Server gibt es nicht an", "url": "URL", "http": "HTTP", "size": "Größe", "evidence": "Belege", "cities": "Städte", "no_probe": "Probes liefen nicht (--no-net oder kein Netz). Keine Aussage über Dritte — lieber leer als falsch.", "pattern": "<b>Muster:</b> Slot <b>%s</b> fehlt <b>%d mal</b> in den letzten %d Tagen — zuständiger Cron <b>%s</b>. Siehe unten, ob ECMWF den Lauf zu dieser Zeit bereits veröffentlicht hatte.", "selftest_ok": "Selbsttest bestanden: der Scanner wurde gegen synthetische Daten mit bekannter Antwort verifiziert.", "foot": "read-only · schreibt nur in verification/", "now": "Ortszeit", "tz_note": "Die Uhr und die Prüfzeit oben stehen in der <b>Zeitzone deines Geräts</b>, wo immer du bist. Alles in den Rastern und Tabellen bleibt in <b>UTC</b>, da die Daten-Slots selbst in UTC definiert sind — eine Umrechnung würde die Slots falsch benennen.", "st": {"ok": "aktuell", "stale": "verzögert", "absent": "EXISTIERT NICHT", "blocked": "nicht prüfbar", "unreachable": "nicht prüfbar", "upstream": "nicht prüfbar", "error": "nicht prüfbar", "unknown": "unbekannt"}, "m": {"empty_days": "%(n)d völlig leere Tage: %(v)s", "no_smi": "keine SMI-Daten", "bad_names": "%(n)d ungültige Dateinamen in auto/", "corrupt": "%(n)d leere PNG-Dateien oder ungültiger Header in auto/", "stale_data": "SMI-Daten sind %(v)sh alt", "aging_data": "SMI-Daten sind %(v)sh alt", "no_forecast": "keine Vorhersage (Tomorrow leer)", "forecast_partial": "Vorhersage unvollständig (%(n)d/8)", "forecast_wrong_day": "Vorhersage für %(v)s, nicht für morgen", "slot_pattern": "Slot %(v)s fehlt %(n)d mal (Cron %(v2)s)", "aq_missing": "AQI fehlt: %(v)s", "forecast_bad_names": "%(n)d ungültige Dateinamen in forecast/", "forecast_corrupt": "%(n)d leere PNG-Dateien oder ungültiger Header in forecast/", "aq_invalid": "AQI-Datei vorhanden, aber nicht lesbar: %(v)s", "forecast_status": "letzte Vorhersage: %(v)s", "layer_absent": "%(v)s: geprüft und existiert NICHT", "layer_uncheckable": "%(v)s: nicht prüfbar (%(v2)s)", "layer_stale": "%(v)s: %(n)d Slots verzögert"}}}</script>
+<script id="LNAMES" type="application/json">{"clouds": ["Clouds", "Σύννεφα", "Wolken", "NASA GIBS · VIIRS · daily pass"], "aod": ["Aerosol", "Aerosol", "Aerosol", "Copernicus CAMS · composition_aod550"], "dust": ["Dust", "Σκόνη", "Staub", "Copernicus CAMS · composition_duaod550"], "ecmwf": ["ECMWF open-data", "ECMWF open-data", "ECMWF open-data", "source of SMI · 6-hourly run"]}</script>
+<script>
+var S=JSON.parse(document.getElementById('DATA').textContent);
+var T=JSON.parse(document.getElementById('I18N').textContent);
+var LN=JSON.parse(document.getElementById('LNAMES').textContent);
+var LANG='en';
+try{var s=localStorage.getItem('smoggyLang');if(s&&T[s])LANG=s;}catch(e){}
+var ST_COL={ok:'#2BFF55',stale:'#ffd84a',absent:'#ff5252',blocked:'#5c7189',
+ unreachable:'#5c7189',upstream:'#5c7189',error:'#5c7189',unknown:'#5c7189'};
+var LIDX={en:0,el:1,de:2};
+function esc(x){var d=document.createElement('div');d.textContent=x==null?'':String(x);return d.innerHTML;}
+/* LOCAL TIME. Deliberately done here and not in Python: make_status.py runs
+   on a CI runner that is always UTC, so it cannot possibly know where the
+   reader is. The browser can. This follows the device wherever it travels,
+   with no configuration. The grids and tables stay in UTC because the data
+   slots themselves are defined in UTC -- see L.tz_note. */
+function LOC(){return LANG==='el'?'el-GR':(LANG==='de'?'de-DE':'en-GB');}
+function TZ(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||'';}
+  catch(e){return '';}}
+function offs(d){var o=-d.getTimezoneOffset(),s=o<0?'-':'+';o=Math.abs(o);
+  return 'UTC'+s+('0'+Math.floor(o/60)).slice(-2)+':'+('0'+(o%60)).slice(-2);}
+function toLocal(iso){
+  var d=new Date(iso);
+  if(!iso||isNaN(d.getTime()))return esc(iso||'—');
+  return esc(d.toLocaleString(LOC(),{day:'2-digit',month:'2-digit',
+    hour:'2-digit',minute:'2-digit',hour12:false}));
+}
+function tick(){
+  var el=document.getElementById('clk');if(!el)return;
+  var n=new Date(),z=TZ();
+  var t=n.toLocaleTimeString(LOC(),{hour:'2-digit',minute:'2-digit',
+        second:'2-digit',hour12:false});
+  var dd=n.toLocaleDateString(LOC(),{weekday:'short',day:'2-digit',month:'2-digit'});
+  el.innerHTML=esc(T[LANG].now)+': <b>'+esc(dd+' '+t)+'</b>'+
+    ' <span class="tz">'+esc((z?z+' · ':'')+offs(n))+'</span>';
+}
+setInterval(tick,1000);
+function fmt(tpl,o){return tpl.replace(/%\((\w+)\)[ds]/g,function(_,k){return o[k]==null?'':o[k];});}
+function msg(m){var t=T[LANG].m[m.c];return t?fmt(t,m):m.c;}
+function cc(v){return v>=95?'g':v>=80?'y':'r';}
+function render(){
+ var L=T[LANG],smi=S.smi,aq=S.aq,fc=S.forecast,P=S.probes||{};
+ document.documentElement.lang=LANG;
+ document.getElementById('ttl').textContent=L.title;
+ document.getElementById('sub').innerHTML=esc(L.checked)+': '+toLocal(S.generated_at)+
+   ' <span class="tz">('+esc(S.generated_at)+')</span> · '+esc(smi.files+' '+L.files);
+ tick();
+ document.getElementById('ft').textContent=L.foot;
+ [].forEach.call(document.querySelectorAll('.lb'),function(b){
+   b.className='lb'+(b.dataset.l===LANG?' on':'');});
+ var h='';
+ var li=S.fails.concat(S.warns).map(function(m){return '<li>'+esc(msg(m))+'</li>';}).join('');
+ h+='<div class="banner '+S.state+'"><div class="t">'+L[S.state]+'</div>'+(li?'<ul>'+li+'</ul>':'')+'</div>';
+ if(S.selftest_passed){h+='<div class="note st">'+L.selftest_ok+'</div>';}
+ var a=smi.age_hours,ac=a==null?'r':(a<=12?'g':(a<=24?'y':'r'));
+ h+='<div class="kpis">'+
+  '<div class="kpi"><div class="k">'+L.cov.replace('%d',smi.days)+'</div><div class="v '+cc(smi.coverage_pct)+'">'+Math.round(smi.coverage_pct)+'%</div></div>'+
+  '<div class="kpi"><div class="k">'+L.aqcov+'</div><div class="v '+cc(aq.coverage_pct)+'">'+Math.round(aq.coverage_pct)+'%</div></div>'+
+  '<div class="kpi"><div class="k">'+L.newest+'</div><div class="v '+ac+'">'+(a==null?'—':a.toFixed(1)+'h')+'</div></div>'+
+  '<div class="kpi"><div class="k">'+L.fctom+'</div><div class="v '+((fc.complete&&fc.is_tomorrow)?'g':'r')+'">'+(fc.slots?fc.slots+'/8':'—')+'</div></div>'+
+  '</div>';
+ h+='<h2>'+L.smi_h+'</h2><div class="h2s">'+L.smi_s+'</div>';
+ h+='<div class="hdr"><span class="lab"></span>'+smi.slots.map(function(x){
+   return '<span class="hc">'+('0'+x).slice(-2)+'</span>';}).join('')+'<span class="cnt"></span></div>';
+ h+=smi.grid.map(function(r){
+   return '<div class="row"><span class="lab">'+esc(r.label)+'</span>'+
+    r.cells.map(function(c){return '<span class="cell '+(c===1?'p':(c===2?'n':''))+'"></span>';}).join('')+
+    '<span class="cnt">'+r.present+'/8</span></div>';}).join('');
+ h+='<div class="leg"><span><i style="background:#2BFF55"></i>'+L.lg_yes+'</span>'+
+  '<span><i style="background:#ff5252"></i>'+L.lg_no+'</span>'+
+  '<span><i style="background:#26344a"></i>'+L.lg_nd+'</span></div>';
+ if(smi.worst_hour!=null){
+   var wh=('0'+smi.worst_hour).slice(-2)+'Z';
+   h+='<div class="note">'+L.pattern.replace('%s',wh)
+      .replace('%d',smi.missing_by_hour[smi.worst_hour])
+      .replace('%d',smi.days).replace('%s',smi.slot_cron[smi.worst_hour])+'</div>';
+ }
+ h+='<h2>'+L.lay_h+'</h2><div class="h2s">'+L.lay_s+'</div>';
+ if(!P.enabled){h+='<div class="note">'+L.no_probe+'</div>';}
+ else{
+  ['clouds','aod','dust','ecmwf'].forEach(function(k){
+   var v=P.layers[k]||{status:'unknown',tries:[]},nm=LN[k],st=v.status||'unknown';
+   var tr=v.tries&&v.tries.length?v.tries:[{}],f=tr[0],la=tr[tr.length-1];
+   var pub=la.last_modified||la.server_date;
+   var col=ST_COL[st]||'#5c7189';
+   h+='<div class="card"><div class="nm"><span class="dot" style="background:'+col+'"></span>'+
+     esc(nm[LIDX[LANG]])+' <span style="color:'+col+';font-size:11px;font-weight:400">'+
+     esc(L.st[st]||st)+'</span></div><div class="src">'+esc(nm[3])+'</div>'+
+     row(L.refers,'<b>'+esc(v.newest||'—')+'</b>')+
+     row(L.asked,esc(f.asked_at||'—'))+
+     row(L.answered,esc(la.got_at||'—'))+
+     row(L.took,la.ms==null?'—':la.ms+' ms')+
+     row(L.pub,pub?esc(pub):'<span class="mu">'+L.nopub+'</span>')+
+     '<details><summary>'+L.evidence+' ('+tr.length+')</summary>'+
+      tr.map(function(t){return '<div class="ev">'+L.http+' '+(t.http||0)+
+        ' · '+L.size+' '+(t.bytes||0)+'B · '+(t.ms||0)+'ms · '+esc(t.verdict||'')+
+        '<br>'+esc(t.url||'')+(t.error?'<br>'+esc(t.error):'')+'</div>';}).join('')+
+     '</details></div>';
+  });
+ }
+ h+='<h2>'+L.aq_h+'</h2><div class="h2s">'+L.aq_s+'</div>';
+ h+='<table><tr><th>'+L.t_for+'</th><th>'+L.t_made+'</th><th class="r">'+L.t_cont+'</th></tr>'+
+  aq.rows.map(function(r){
+   var d,t,c;
+   if(r.present&&!r.note){d='#2BFF55';t=r.cities+' '+L.cities+' · 24h';c='#cfe0f5';}
+   else if(r.present){d='#ffd84a';t=esc(r.note);c='#ffd84a';}
+   else if(r.due===false){d='#26344a';t=L.lg_nd;c='#7f93aa';}
+   else{d='#ff5252';t=L.lg_no;c='#ff8a8a';}
+   return '<tr><td><span class="dot" style="background:'+d+'"></span>'+esc(r.label)+
+    '</td><td class="mu">'+esc(r.made_on)+'</td><td class="r" style="color:'+c+'">'+t+'</td></tr>';
+  }).join('')+'</table>';
+ h+='<div class="note">'+L.aq_note+'</div>';
+ h+='<div class="note">'+L.tz_note+'</div>';
+ document.getElementById('app').innerHTML=h;
+}
+function row(k,v){return '<div class="tr2"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+[].forEach.call(document.querySelectorAll('.lb'),function(b){
+  b.onclick=function(){LANG=b.dataset.l;try{localStorage.setItem('smoggyLang',LANG);}catch(e){}render();};});
+render();
+</script></body></html>

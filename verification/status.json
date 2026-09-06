@@ -1,0 +1,564 @@
+{
+ "smi": {
+  "coverage_pct": 62.3,
+  "days": 14,
+  "grid": [
+   {
+    "date": "2026-08-24",
+    "label": "24/08",
+    "cells": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 8,
+    "missing_due": 0
+   },
+   {
+    "date": "2026-08-25",
+    "label": "25/08",
+    "cells": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 8,
+    "missing_due": 0
+   },
+   {
+    "date": "2026-08-26",
+    "label": "26/08",
+    "cells": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "present": 6,
+    "missing_due": 2
+   },
+   {
+    "date": "2026-08-27",
+    "label": "27/08",
+    "cells": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "present": 4,
+    "missing_due": 4
+   },
+   {
+    "date": "2026-08-28",
+    "label": "28/08",
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "present": 0,
+    "missing_due": 8
+   },
+   {
+    "date": "2026-08-29",
+    "label": "29/08",
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "present": 0,
+    "missing_due": 8
+   },
+   {
+    "date": "2026-08-30",
+    "label": "30/08",
+    "cells": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "present": 0,
+    "missing_due": 8
+   },
+   {
+    "date": "2026-08-31",
+    "label": "31/08",
+    "cells": [
+     1,
+     1,
+     0,
+     0,
+     1,
+     1,
+     0,
+     0
+    ],
+    "present": 4,
+    "missing_due": 4
+   },
+   {
+    "date": "2026-09-01",
+    "label": "01/09",
+    "cells": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 8,
+    "missing_due": 0
+   },
+   {
+    "date": "2026-09-02",
+    "label": "02/09",
+    "cells": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 6,
+    "missing_due": 2
+   },
+   {
+    "date": "2026-09-03",
+    "label": "03/09",
+    "cells": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 6,
+    "missing_due": 2
+   },
+   {
+    "date": "2026-09-04",
+    "label": "04/09",
+    "cells": [
+     0,
+     0,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 6,
+    "missing_due": 2
+   },
+   {
+    "date": "2026-09-05",
+    "label": "05/09",
+    "cells": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "present": 8,
+    "missing_due": 0
+   },
+   {
+    "date": "2026-09-06",
+    "label": "06/09",
+    "cells": [
+     1,
+     1,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2
+    ],
+    "present": 2,
+    "missing_due": 0
+   }
+  ],
+  "slots": [
+   0,
+   3,
+   6,
+   9,
+   12,
+   15,
+   18,
+   21
+  ],
+  "missing_by_hour": {
+   "0": 7,
+   "3": 7,
+   "6": 4,
+   "9": 4,
+   "12": 3,
+   "15": 3,
+   "18": 6,
+   "21": 6
+  },
+  "worst_hour": 0,
+  "slot_cron": {
+   "0": "08:40Z",
+   "3": "08:40Z",
+   "6": "14:40Z",
+   "9": "14:40Z",
+   "12": "20:40Z",
+   "15": "20:40Z",
+   "18": "02:40Z+1",
+   "21": "02:40Z+1"
+  },
+  "newest": "2026-09-06T03Z",
+  "age_hours": 10.6,
+  "files": 70,
+  "bad_names": [],
+  "corrupt": []
+ },
+ "forecast": {
+  "date": "2026-09-07",
+  "slots": 8,
+  "complete": true,
+  "days_spanned": 1,
+  "duplicate_hours": 0,
+  "is_tomorrow": true,
+  "bad_names": [],
+  "corrupt": []
+ },
+ "forecast_status": null,
+ "aq": {
+  "coverage_pct": 80.0,
+  "rows": [
+   {
+    "date": "2026-08-24",
+    "label": "24/08",
+    "made_on": "23/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-25",
+    "label": "25/08",
+    "made_on": "24/08",
+    "present": false,
+    "due": true,
+    "cities": null,
+    "hours": null,
+    "note": "absent"
+   },
+   {
+    "date": "2026-08-26",
+    "label": "26/08",
+    "made_on": "25/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-27",
+    "label": "27/08",
+    "made_on": "26/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-28",
+    "label": "28/08",
+    "made_on": "27/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-29",
+    "label": "29/08",
+    "made_on": "28/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-30",
+    "label": "30/08",
+    "made_on": "29/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-08-31",
+    "label": "31/08",
+    "made_on": "30/08",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-09-01",
+    "label": "01/09",
+    "made_on": "31/08",
+    "present": false,
+    "due": true,
+    "cities": null,
+    "hours": null,
+    "note": "absent"
+   },
+   {
+    "date": "2026-09-02",
+    "label": "02/09",
+    "made_on": "01/09",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-09-03",
+    "label": "03/09",
+    "made_on": "02/09",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-09-04",
+    "label": "04/09",
+    "made_on": "03/09",
+    "present": false,
+    "due": true,
+    "cities": null,
+    "hours": null,
+    "note": "absent"
+   },
+   {
+    "date": "2026-09-05",
+    "label": "05/09",
+    "made_on": "04/09",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-09-06",
+    "label": "06/09",
+    "made_on": "05/09",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   },
+   {
+    "date": "2026-09-07",
+    "label": "07/09",
+    "made_on": "06/09",
+    "present": true,
+    "due": true,
+    "cities": 1000,
+    "hours": 24,
+    "note": ""
+   }
+  ]
+ },
+ "probes": {
+  "enabled": true,
+  "layers": {
+   "clouds": {
+    "status": "ok",
+    "newest": "2026-09-06",
+    "lag_slots": 0,
+    "tries": [
+     {
+      "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-06/GoogleMapsCompatible_Level9/2/1/2.jpg",
+      "method": "GET",
+      "asked_at": "2026-09-06T13:35:37Z",
+      "got_at": "2026-09-06T13:35:37Z",
+      "ms": 408,
+      "http": 200,
+      "bytes": 17763,
+      "server_date": "Sun, 06 Sep 2026 13:35:37 GMT",
+      "last_modified": null,
+      "error": null,
+      "refers_to": "2026-09-06",
+      "verdict": "hit"
+     }
+    ]
+   },
+   "aod": {
+    "status": "ok",
+    "newest": "2026-09-06T12:00:00Z",
+    "lag_slots": 0,
+    "tries": [
+     {
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-06T12%3A00%3A00Z",
+      "method": "GET",
+      "asked_at": "2026-09-06T13:35:37Z",
+      "got_at": "2026-09-06T13:35:39Z",
+      "ms": 2266,
+      "http": 200,
+      "bytes": 86,
+      "server_date": "Sun, 06 Sep 2026 13:35:39 GMT",
+      "last_modified": "Sun, 06 Sep 2026 13:35:45 GMT",
+      "error": null,
+      "refers_to": "2026-09-06T12:00:00Z",
+      "verdict": "hit"
+     }
+    ]
+   },
+   "dust": {
+    "status": "ok",
+    "newest": "2026-09-06T12:00:00Z",
+    "lag_slots": 0,
+    "tries": [
+     {
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-06T12%3A00%3A00Z",
+      "method": "GET",
+      "asked_at": "2026-09-06T13:35:39Z",
+      "got_at": "2026-09-06T13:35:42Z",
+      "ms": 2371,
+      "http": 200,
+      "bytes": 86,
+      "server_date": "Sun, 06 Sep 2026 13:35:42 GMT",
+      "last_modified": "Sun, 06 Sep 2026 13:35:47 GMT",
+      "error": null,
+      "refers_to": "2026-09-06T12:00:00Z",
+      "verdict": "hit"
+     }
+    ]
+   },
+   "ecmwf": {
+    "status": "stale",
+    "newest": "2026-09-06 06z",
+    "lag_slots": 1,
+    "tries": [
+     {
+      "url": "https://data.ecmwf.int/forecasts/20260906/12z/ifs/0p25/oper/",
+      "method": "HEAD",
+      "asked_at": "2026-09-06T13:35:42Z",
+      "got_at": "2026-09-06T13:35:44Z",
+      "ms": 2200,
+      "http": 404,
+      "bytes": 0,
+      "server_date": null,
+      "last_modified": null,
+      "error": "HTTP 404",
+      "refers_to": "2026-09-06 12z",
+      "verdict": "absent"
+     },
+     {
+      "url": "https://data.ecmwf.int/forecasts/20260906/06z/ifs/0p25/oper/",
+      "method": "HEAD",
+      "asked_at": "2026-09-06T13:35:44Z",
+      "got_at": "2026-09-06T13:35:45Z",
+      "ms": 1350,
+      "http": 200,
+      "bytes": 0,
+      "server_date": null,
+      "last_modified": "Sun, 06 Sep 2026 12:27:00 GMT",
+      "error": null,
+      "refers_to": "2026-09-06 06z",
+      "verdict": "hit"
+     }
+    ]
+   }
+  }
+ },
+ "generated_at": "2026-09-06T13:35:36Z",
+ "state": "fail",
+ "fails": [
+  {
+   "c": "empty_days",
+   "n": 3,
+   "v": "28/08, 29/08, 30/08"
+  }
+ ],
+ "warns": [
+  {
+   "c": "slot_pattern",
+   "v": "00Z",
+   "n": 7,
+   "v2": "08:40Z"
+  },
+  {
+   "c": "aq_missing",
+   "v": "25/08, 01/09, 04/09"
+  },
+  {
+   "c": "layer_stale",
+   "v": "ecmwf",
+   "n": 1
+  }
+ ],
+ "selftest_passed": true
+}

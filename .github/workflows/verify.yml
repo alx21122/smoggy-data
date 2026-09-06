@@ -1,0 +1,85 @@
+name: verify
+#
+# ELEGXOS YGEIAS DEDOMENON — trexei MONOS tou, sinexeia.
+# Dimiourgithike 05/09/26 [Claude, ok Alex].
+#
+# TI KANEI
+#   1. make_status.py  -> grafei verification/index.html + status.json kai ta
+#                         kanei commit. TREXEI PANTA, akoma ki an ta dedomena
+#                         einai xalia -- afto akrivos einai to noima tou.
+#   2. test_smoggy.py  -> to GATE. Trexei META to commit, oste to dashboard na
+#                         dimosievetai KAI otan yparxoun sfalmata.
+#                         Exit 1 -> KOKKINO run -> eidopoiisi apo to GitHub.
+#
+# TI DEN KANEI
+#   DEN aggizei conditions/, aq-forecast/, ta PNG, oute kanena script
+#   paragogis. Grafei MONO mesa sto verification/.
+#
+# POU TO VLEPEIS
+#   https://alx21122.github.io/smoggy-data/verification/
+
+on:
+  workflow_run:
+    workflows: ["conditions", "aq"]
+    types: [completed]
+
+  schedule:
+    - cron: '15 5 * * *'
+
+  push:
+    paths:
+      - 'smoggy_grid.py'
+      - 'make_conditions.py'
+      - 'make_aq.py'
+      - 'test_smoggy.py'
+      - 'make_status.py'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verify
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: install
+        run: pip install numpy pillow
+
+      - name: build dashboard
+        run: python make_status.py --days 14
+
+      - name: publish dashboard
+        run: |
+          git config user.name  "smoggy-bot"
+          git config user.email "bot@smoggyapp.com"
+          git add verification
+          if git diff --cached --quiet; then
+            echo "kamia allagi sto verification/"
+            exit 0
+          fi
+          git commit -m "verify: data health $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            if git push; then
+              echo "push OK stin prospathia $i"
+              exit 0
+            fi
+            echo "push apetyxe (prospathia $i) -- rebase kai ksana"
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            sleep 5
+          done
+          echo "::error:: to push tou verification/ apetyxe kai stis 3 prospathies"
+          exit 1
+
+      - name: run tests
+        run: python test_smoggy.py --days 14

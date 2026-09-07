@@ -7,8 +7,15 @@ name: verify
 #   1. make_status.py  -> grafei verification/index.html + status.json kai ta
 #                         kanei commit. TREXEI PANTA, akoma ki an ta dedomena
 #                         einai xalia -- afto akrivos einai to noima tou.
-#   2. test_smoggy.py  -> to GATE. Trexei META to commit, oste to dashboard na
-#                         dimosievetai KAI otan yparxoun sfalmata.
+#   2. make_status.py --selftest -> to GATE. Trexei META to commit, oste to
+#                         dashboard na dimosievetai KAI otan yparxoun sfalmata.
+#                         FIX 06/09/26 [Claude, ok Alex]: itan "python
+#                         test_smoggy.py --days 14" -- afto to arxeio den
+#                         yparxei sto repo, ara KATHE run evgaine kokkino
+#                         (FileNotFoundError), asxeta me tin pragmatiki
+#                         ygeia ton dedomenon. To make_status.py --selftest
+#                         idi yparxei kai perna 94/94 (epivevaiothike me
+#                         pragmatiki ektelesi).
 #                         Exit 1 -> KOKKINO run -> eidopoiisi apo to GitHub.
 #
 # TI DEN KANEI
@@ -82,4 +89,4 @@ jobs:
           exit 1
 
       - name: run tests
-        run: python test_smoggy.py --days 14
+        run: python make_status.py --selftest

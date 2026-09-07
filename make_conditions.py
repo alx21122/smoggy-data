@@ -254,7 +254,108 @@ def run_forecast(locked_run_raw):
             shutil.rmtree(backup, ignore_errors=True)
 
 
+def backfill_auto_from_forecast():
+    """
+    Prosthiki 04/09/26 [Claude, ok Alex] #AUTOBACKFILL.
+
+    PROVLIMA pou diorthonei: to conditions/forecast/ ginetai OLOKLIRO
+    atomic-swap replace kathe fora pou petyxei to run_forecast() pio panw
+    (allazei OLO to periexomeno tou fakelou, min PROSTHESI). Ena "avrio"
+    valid-time slot pou yparxei MONO ekei ginetai "simera", pername to valid
+    time tou, kai an to kanoniko AUTO (process_one, pio panw) den to exei idi
+    grapsei sto conditions/auto/ (p.x. epeidi to sygkekrimeno run apetyxe
+    kapoia mera) -- to slot xanetai gia panta tin epomeni fora pou to
+    forecast/ tha antikatastathei.
+
+    TI KANEI: gia kathe PNG tou YPARXONTOS conditions/forecast/ (PRIN apo
+    opoiadipote antikatastasi -- diavazei mono, den to piranei/diagrafei
+    pote), an to valid time tou exei idi perasei (<= to trexon oloklirimeno
+    UTC trirwo) KAI to idio filename leipei apo to conditions/auto/, to
+    antigrafei MONIMA ekei. POTE den antikathista yparxon auto PNG (to
+    pragmatiko auto exei panta protereotita -- req #3), POTE den proothei
+    mellontiko forecast slot (req #5).
+
+    POTE kanei raise -- kathe apotyxia (missing dir, corrupt filename, IO
+    error se ena sygkekrimeno arxeio) katagrafetai me warning kai to backfill
+    synexizei me ta ypoloipa arxeia (req #6). Staging (".partial" + os.replace
+    idiou filesystem, atomic) -- POTE misogrammeno PNG sto conditions/auto/.
+    An apotyxei to copy enos arxeiou, to forecast/ MENEI anepaphes (mono
+    diavazetai, pote grafetai/diagrafetai).
+
+    TREXEI PANTA, san PROTO vima tou main() (parakato), anexartita apo to an
+    petyxei to AUTO i to FORECAST se AUTO to sygkekrimeno run (req #4) --
+    diavazei mono to idi-yparxon conditions/forecast/ apo proigoumena runs.
+    """
+    copied = []
+    try:
+        if not os.path.isdir(FORECAST_OUTDIR):
+            return copied
+
+        now_utc = dt.datetime.now(dt.timezone.utc)
+        cur_slot = now_utc.replace(minute=0, second=0, microsecond=0,
+                                   hour=(now_utc.hour // 3) * 3)
+        os.makedirs(OUTDIR, exist_ok=True)
+
+        try:
+            fnames = sorted(os.listdir(FORECAST_OUTDIR))
+        except Exception as e:
+            print("::warning:: backfill: could not list", FORECAST_OUTDIR,
+                  ":", type(e).__name__, e)
+            return copied
+
+        for fname in fnames:
+            if not fname.endswith(".png"):
+                continue
+            stamp = fname[:-4]
+            try:
+                valid = dt.datetime.strptime(
+                    stamp, "%Y-%m-%dT%HZ").replace(tzinfo=dt.timezone.utc)
+            except ValueError:
+                continue  # aprosdokito filename -- agnoise, min to piraxeis
+
+            if valid > cur_slot:
+                continue  # req #5: pote mellontiko forecast slot sto istoriko auto
+
+            dst = os.path.join(OUTDIR, fname)
+            if os.path.exists(dst):
+                continue  # req #3: to pragmatiko auto exei PANTA protereotita
+
+            src = os.path.join(FORECAST_OUTDIR, fname)
+            stage_path = dst + ".partial"
+            try:
+                shutil.copyfile(src, stage_path)
+                os.replace(stage_path, dst)
+                copied.append(fname)
+                print("backfill: auto/%s <- forecast/%s (istoriko, elleipe apo auto)"
+                      % (fname, fname))
+            except Exception as e:
+                try:
+                    if os.path.exists(stage_path):
+                        os.remove(stage_path)
+                except Exception:
+                    pass
+                print("::warning:: backfill copy failed for", fname, ":",
+                      type(e).__name__, e)
+                continue
+
+        if copied:
+            print("backfill: total", len(copied), "istoriko(a) slot(s) prosteth"
+                  "ikan sto auto/:", ", ".join(copied))
+
+    except Exception as e:
+        print("::warning:: backfill_auto_from_forecast failed:",
+              type(e).__name__, e)
+        traceback.print_exc()
+
+    return copied
+
+
 def main():
+    # #AUTOBACKFILL (04/09/26): PANTA PROTO vima, anexartita apo AUTO/FORECAST
+    # tou trexontos run (req #4). Diavazei mono to yparxon conditions/forecast/,
+    # pote den ripsei to script -- an apotyxei, synexizei kanonika parakato.
+    backfill_auto_from_forecast()
+
     locked_run = None
 
     # ---- AUTO: KAMIA try/except -- failure edo = kanoniko workflow

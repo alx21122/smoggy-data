@@ -50,4 +50,30 @@ jobs:
           fi
 
           git commit -m "conditions" || echo "no change"
-          git push || echo "nothing to push"
+
+          # FIX 07/09/26 [Claude, ok Alex]: to "git push || echo nothing to
+          # push" pio panw ekryve KATHE apotyxia tou push (network, auth,
+          # conflict, k.lp.) san na itan "den yparxei tipota gia push" -- to
+          # run emene PRASINO akoma ki an ta PNG DEN dimosieftikan pote. Idio
+          # pattern/fix me to aq.yml (07/09/26): 3 prospatheies push, an
+          # apotyxei dokimazei pull --rebase, an ke afto apotyxei (pithano
+          # conflict) -> rebase --abort (kathara, oxi kollimeno repo) kai
+          # PRAGMATIKO kokkino, xoris allo retry. To "den yparxei allagi gia
+          # commit" pio panw parameinei apodekto -- den allaxe.
+          for i in 1 2 3; do
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then
+              echo "push OK stin prospathia $i"
+              exit 0
+            fi
+
+            echo "push apetyxe -- rebase kai ksana"
+            if ! git pull --rebase origin "${GITHUB_REF_NAME}"; then
+              git rebase --abort || true
+              echo "::error:: to git pull --rebase apetyxe (pithano conflict) -- rebase abort"
+              exit 1
+            fi
+            sleep 5
+          done
+
+          echo "::error:: to conditions push den anevike"
+          exit 1

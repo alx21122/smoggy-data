@@ -13,15 +13,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: build snapshot
         run: python make_aq.py
+
       - name: commit
         run: |
           git config user.name "smoggy-bot"
           git config user.email "bot@smoggyapp.com"
           git add aq-forecast
-          git commit -m "aq snapshot" || echo "no change"
-          git push || echo "nothing to push"
+
+          if git diff --cached --quiet; then
+            echo "no change"
+            exit 0
+          fi
+
+          git commit -m "aq snapshot"
+
+          for i in 1 2 3; do
+            if git push origin HEAD:"${GITHUB_REF_NAME}"; then
+              echo "push OK stin prospathia $i"
+              exit 0
+            fi
+
+            echo "push apetyxe -- rebase kai ksana"
+            if ! git pull --rebase origin "${GITHUB_REF_NAME}"; then
+              git rebase --abort || true
+              echo "::error:: to git pull --rebase apetyxe (pithano conflict) -- rebase abort"
+              exit 1
+            fi
+            sleep 5
+          done
+
+          echo "::error:: to AQ arxeio den anevike"
+          exit 1

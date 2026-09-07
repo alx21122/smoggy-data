@@ -43,7 +43,14 @@ def t_crit(p_pa):
 
 
 def ct_state(t_c, hpa, rhi_pct):
-    """0=tipota  1=vraxyvio  2=monimo  3=monimo+aplonei. Vectorised -> uint8."""
+    """0=tipota  1=vraxyvio  2=monimo  3=monimo+aplonei. Vectorised -> uint8.
+
+    04/09/26 [Alex, ok]: DOKIMASTIKE allagi se 85/100 (idio me to _ctState() sto
+    index.html) KAI GYRISE PISO se auto (100/120) me riti entoli tou Alex --
+    to MAP painting MENEI AKRIVOS opos itan ANEKATHEN, DEN allazei. To icon sto
+    index.html (_ctState, aristero menu/live camera/frozen photo/share card)
+    EXEI 85/100 kai einai SKOPIMA diaforetiko apo edo -- dyo xoristes klimakes,
+    OXI to idio systima. MIN ta xanatairiasis xoris riti entoli."""
     tc = t_crit(hpa * 100.0)
     t_c = np.asarray(t_c, dtype=np.float64)
     rhi_pct = np.asarray(rhi_pct, dtype=np.float64)

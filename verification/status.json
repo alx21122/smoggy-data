@@ -1,24 +1,8 @@
 {
  "smi": {
-  "coverage_pct": 65.5,
+  "coverage_pct": 72.0,
   "days": 14,
   "grid": [
-   {
-    "date": "2026-08-28",
-    "label": "28/08",
-    "cells": [
-     0,
-     0,
-     0,
-     0,
-     0,
-     0,
-     0,
-     0
-    ],
-    "present": 0,
-    "missing_due": 8
-   },
    {
     "date": "2026-08-29",
     "label": "29/08",
@@ -221,10 +205,26 @@
      1,
      1,
      1,
+     1,
+     1
+    ],
+    "present": 8,
+    "missing_due": 0
+   },
+   {
+    "date": "2026-09-11",
+    "label": "11/09",
+    "cells": [
+     1,
+     1,
+     1,
+     2,
+     2,
+     2,
      2,
      2
     ],
-    "present": 6,
+    "present": 3,
     "missing_due": 0
    }
   ],
@@ -239,14 +239,14 @@
    21
   ],
   "missing_by_hour": {
-   "0": 7,
-   "3": 7,
-   "6": 4,
-   "9": 4,
-   "12": 3,
-   "15": 3,
-   "18": 5,
-   "21": 5
+   "0": 6,
+   "3": 6,
+   "6": 3,
+   "9": 3,
+   "12": 2,
+   "15": 2,
+   "18": 4,
+   "21": 4
   },
   "worst_hour": 0,
   "slot_cron": {
@@ -259,14 +259,14 @@
    "18": "02:40Z+1",
    "21": "02:40Z+1"
   },
-  "newest": "2026-09-10T15Z",
-  "age_hours": 7.8,
-  "files": 102,
+  "newest": "2026-09-11T06Z",
+  "age_hours": 1.5,
+  "files": 107,
   "bad_names": [],
   "corrupt": []
  },
  "forecast": {
-  "date": "2026-09-11",
+  "date": "2026-09-12",
   "slots": 8,
   "complete": true,
   "days_spanned": 1,
@@ -277,18 +277,8 @@
  },
  "forecast_status": null,
  "aq": {
-  "coverage_pct": 86.7,
+  "coverage_pct": 80.0,
   "rows": [
-   {
-    "date": "2026-08-28",
-    "label": "28/08",
-    "made_on": "27/08",
-    "present": true,
-    "due": true,
-    "cities": 1000,
-    "hours": 24,
-    "note": ""
-   },
    {
     "date": "2026-08-29",
     "label": "29/08",
@@ -428,6 +418,16 @@
     "cities": 1000,
     "hours": 24,
     "note": ""
+   },
+   {
+    "date": "2026-09-12",
+    "label": "12/09",
+    "made_on": "11/09",
+    "present": false,
+    "due": true,
+    "cities": null,
+    "hours": null,
+    "note": "absent"
    }
   ]
  },
@@ -435,19 +435,33 @@
   "enabled": true,
   "layers": {
    "clouds": {
-    "status": "ok",
+    "status": "stale",
     "newest": "2026-09-10",
-    "lag_slots": 0,
+    "lag_slots": 1,
     "tries": [
+     {
+      "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-11/GoogleMapsCompatible_Level9/2/1/2.jpg",
+      "method": "GET",
+      "asked_at": "2026-09-11T07:29:48Z",
+      "got_at": "2026-09-11T07:29:48Z",
+      "ms": 207,
+      "http": 404,
+      "bytes": 0,
+      "server_date": "Fri, 11 Sep 2026 07:29:48 GMT",
+      "last_modified": null,
+      "error": "HTTP 404",
+      "refers_to": "2026-09-11",
+      "verdict": "absent"
+     },
      {
       "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-10/GoogleMapsCompatible_Level9/2/1/2.jpg",
       "method": "GET",
-      "asked_at": "2026-09-10T22:47:32Z",
-      "got_at": "2026-09-10T22:47:32Z",
-      "ms": 499,
+      "asked_at": "2026-09-11T07:29:48Z",
+      "got_at": "2026-09-11T07:29:49Z",
+      "ms": 227,
       "http": 200,
       "bytes": 22047,
-      "server_date": "Thu, 10 Sep 2026 22:47:32 GMT",
+      "server_date": "Fri, 11 Sep 2026 07:29:49 GMT",
       "last_modified": null,
       "error": null,
       "refers_to": "2026-09-10",
@@ -457,102 +471,107 @@
    },
    "aod": {
     "status": "ok",
-    "newest": "2026-09-10T21:00:00Z",
+    "newest": "2026-09-11T06:00:00Z",
     "lag_slots": 0,
     "tries": [
      {
-      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-10T21%3A00%3A00Z",
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-11T06%3A00%3A00Z",
       "method": "GET",
-      "asked_at": "2026-09-10T22:47:32Z",
-      "got_at": "2026-09-10T22:47:35Z",
-      "ms": 2124,
+      "asked_at": "2026-09-11T07:29:49Z",
+      "got_at": "2026-09-11T07:29:51Z",
+      "ms": 2331,
       "http": 200,
       "bytes": 86,
-      "server_date": "Thu, 10 Sep 2026 22:47:34 GMT",
-      "last_modified": "Thu, 10 Sep 2026 22:47:40 GMT",
+      "server_date": "Fri, 11 Sep 2026 07:29:51 GMT",
+      "last_modified": "Fri, 11 Sep 2026 07:29:57 GMT",
       "error": null,
-      "refers_to": "2026-09-10T21:00:00Z",
+      "refers_to": "2026-09-11T06:00:00Z",
       "verdict": "hit"
      }
     ]
    },
    "dust": {
     "status": "ok",
-    "newest": "2026-09-10T21:00:00Z",
+    "newest": "2026-09-11T06:00:00Z",
     "lag_slots": 0,
     "tries": [
      {
-      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-10T21%3A00%3A00Z",
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-11T06%3A00%3A00Z",
       "method": "GET",
-      "asked_at": "2026-09-10T22:47:35Z",
-      "got_at": "2026-09-10T22:47:36Z",
-      "ms": 1439,
+      "asked_at": "2026-09-11T07:29:51Z",
+      "got_at": "2026-09-11T07:29:54Z",
+      "ms": 2585,
       "http": 200,
       "bytes": 86,
-      "server_date": "Thu, 10 Sep 2026 22:47:36 GMT",
-      "last_modified": "Thu, 10 Sep 2026 22:47:42 GMT",
+      "server_date": "Fri, 11 Sep 2026 07:29:54 GMT",
+      "last_modified": "Fri, 11 Sep 2026 07:29:59 GMT",
       "error": null,
-      "refers_to": "2026-09-10T21:00:00Z",
+      "refers_to": "2026-09-11T06:00:00Z",
       "verdict": "hit"
      }
     ]
    },
    "ecmwf": {
     "status": "stale",
-    "newest": "2026-09-10 12z",
+    "newest": "2026-09-11 00z",
     "lag_slots": 1,
     "tries": [
      {
-      "url": "https://data.ecmwf.int/forecasts/20260910/18z/ifs/0p25/oper/",
+      "url": "https://data.ecmwf.int/forecasts/20260911/06z/ifs/0p25/oper/",
       "method": "HEAD",
-      "asked_at": "2026-09-10T22:47:36Z",
-      "got_at": "2026-09-10T22:47:37Z",
-      "ms": 850,
+      "asked_at": "2026-09-11T07:29:54Z",
+      "got_at": "2026-09-11T07:29:55Z",
+      "ms": 975,
       "http": 404,
       "bytes": 0,
       "server_date": null,
       "last_modified": null,
       "error": "HTTP 404",
-      "refers_to": "2026-09-10 18z",
+      "refers_to": "2026-09-11 06z",
       "verdict": "absent"
      },
      {
-      "url": "https://data.ecmwf.int/forecasts/20260910/12z/ifs/0p25/oper/",
+      "url": "https://data.ecmwf.int/forecasts/20260911/00z/ifs/0p25/oper/",
       "method": "HEAD",
-      "asked_at": "2026-09-10T22:47:37Z",
-      "got_at": "2026-09-10T22:47:37Z",
-      "ms": 553,
+      "asked_at": "2026-09-11T07:29:55Z",
+      "got_at": "2026-09-11T07:29:55Z",
+      "ms": 688,
       "http": 200,
       "bytes": 0,
       "server_date": null,
-      "last_modified": "Thu, 10 Sep 2026 19:34:00 GMT",
+      "last_modified": "Fri, 11 Sep 2026 06:55:00 GMT",
       "error": null,
-      "refers_to": "2026-09-10 12z",
+      "refers_to": "2026-09-11 00z",
       "verdict": "hit"
      }
     ]
    }
   }
  },
- "generated_at": "2026-09-10T22:47:31Z",
+ "generated_at": "2026-09-11T07:29:48Z",
  "state": "fail",
  "fails": [
   {
    "c": "empty_days",
-   "n": 3,
-   "v": "28/08, 29/08, 30/08"
+   "n": 2,
+   "v": "29/08, 30/08"
   }
  ],
  "warns": [
   {
    "c": "slot_pattern",
    "v": "00Z",
-   "n": 7,
+   "n": 6,
    "v2": "08:40Z"
   },
   {
    "c": "aq_missing",
-   "v": "01/09, 04/09"
+   "v": "01/09, 04/09, 12/09"
+  },
+  {
+   "c": "layer_stale",
+   "v": "clouds",
+   "n": 1
   },
   {
    "c": "layer_stale",

@@ -1,0 +1,60 @@
+name: conditions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: install
+        run: |
+          pip install ecmwf-opendata cfgrib xarray numpy pillow eccodes
+          python -m cfgrib selfcheck
+
+      - name: build PNG
+        run: python make_conditions.py
+
+      - name: commit
+        run: |
+          git config user.name "smoggy-bot"
+          git config user.email "bot@smoggyapp.com"
+
+          # AUTO: panta stage. An ftasame edo, to "build PNG" step idi
+          # petyxe (an skoupsei PRAGMATIKA -- oxi "not ready yet" -- to
+          # script exit != 0, kai auto to step den trexei kan -- default
+          # GitHub Actions symperifora, kamia allagi xreiazetai edo).
+          git add conditions/auto
+
+          # Alex 28/08/26 (polling redesign): to .last_auto_run kratai poio
+          # itan to teleftaio epityximeno AUTO cycle -- to make_conditions.py
+          # to xrisimopoiei gia na ypologisei to EPOMENO (+6h), MIDEN
+          # manteuma/offset piа. Den yparxei se "not ready yet" tick (den
+          # egrapse tipota neo) -- to "|| true" apotrepei na skasei to step.
+          git add .last_auto_run || true
+
+          # FORECAST: stage MONO se rita "success". Se opoiodipote allo
+          # status (failure / unrecovered / missing file) -> checkout piso
+          # sto HEAD PRIN apo opoiodipote add, ostu o,ti mess emeine ston
+          # ephemeral disk na MIN ftasei pote se commit.
+          status=$(cat .forecast_status 2>/dev/null || echo "failure")
+          if [ "$status" = "success" ]; then
+            git add conditions/forecast
+          else
+            git checkout -- conditions/forecast 2>/dev/null || true
+            echo "::warning:: forecast status=$status - conditions/forecast reset to HEAD, not committed"
+          fi
+
+          git commit -m "conditions" || echo "no change"
+          git push || echo "nothing to push"

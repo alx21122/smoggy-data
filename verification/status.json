@@ -1,24 +1,8 @@
 {
  "smi": {
-  "coverage_pct": 87.3,
+  "coverage_pct": 85.0,
   "days": 14,
   "grid": [
-   {
-    "date": "2026-09-01",
-    "label": "01/09",
-    "cells": [
-     1,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1,
-     1
-    ],
-    "present": 8,
-    "missing_due": 0
-   },
    {
     "date": "2026-09-02",
     "label": "02/09",
@@ -221,10 +205,26 @@
      1,
      1,
      1,
+     0,
+     0
+    ],
+    "present": 6,
+    "missing_due": 2
+   },
+   {
+    "date": "2026-09-15",
+    "label": "15/09",
+    "cells": [
+     1,
+     1,
+     1,
+     2,
+     2,
+     2,
      2,
      2
     ],
-    "present": 6,
+    "present": 3,
     "missing_due": 0
    }
   ],
@@ -245,8 +245,8 @@
    "9": 0,
    "12": 0,
    "15": 0,
-   "18": 3,
-   "21": 3
+   "18": 4,
+   "21": 4
   },
   "worst_hour": 0,
   "slot_cron": {
@@ -259,14 +259,14 @@
    "18": "02:40Z+1",
    "21": "02:40Z+1"
   },
-  "newest": "2026-09-14T15Z",
-  "age_hours": 8.5,
-  "files": 130,
+  "newest": "2026-09-15T06Z",
+  "age_hours": 2.1,
+  "files": 133,
   "bad_names": [],
   "corrupt": []
  },
  "forecast": {
-  "date": "2026-09-15",
+  "date": "2026-09-16",
   "slots": 8,
   "complete": true,
   "days_spanned": 1,
@@ -279,16 +279,6 @@
  "aq": {
   "coverage_pct": 86.7,
   "rows": [
-   {
-    "date": "2026-09-01",
-    "label": "01/09",
-    "made_on": "31/08",
-    "present": false,
-    "due": true,
-    "cities": null,
-    "hours": null,
-    "note": "absent"
-   },
    {
     "date": "2026-09-02",
     "label": "02/09",
@@ -428,6 +418,16 @@
     "cities": 1000,
     "hours": 24,
     "note": ""
+   },
+   {
+    "date": "2026-09-16",
+    "label": "16/09",
+    "made_on": "15/09",
+    "present": false,
+    "due": true,
+    "cities": null,
+    "hours": null,
+    "note": "absent"
    }
   ]
  },
@@ -436,105 +436,105 @@
   "layers": {
    "clouds": {
     "status": "ok",
-    "newest": "2026-09-14",
+    "newest": "2026-09-15",
     "lag_slots": 0,
     "tries": [
      {
-      "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-14/GoogleMapsCompatible_Level9/2/1/2.jpg",
+      "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_NOAA20_CorrectedReflectance_TrueColor/default/2026-09-15/GoogleMapsCompatible_Level9/2/1/2.jpg",
       "method": "GET",
-      "asked_at": "2026-09-14T23:29:15Z",
-      "got_at": "2026-09-14T23:29:16Z",
-      "ms": 340,
+      "asked_at": "2026-09-15T08:08:32Z",
+      "got_at": "2026-09-15T08:08:32Z",
+      "ms": 339,
       "http": 200,
-      "bytes": 22217,
-      "server_date": "Mon, 14 Sep 2026 23:29:15 GMT",
+      "bytes": 2073,
+      "server_date": "Tue, 15 Sep 2026 08:08:32 GMT",
       "last_modified": null,
       "error": null,
-      "refers_to": "2026-09-14",
+      "refers_to": "2026-09-15",
       "verdict": "hit"
      }
     ]
    },
    "aod": {
     "status": "ok",
-    "newest": "2026-09-14T21:00:00Z",
+    "newest": "2026-09-15T06:00:00Z",
     "lag_slots": 0,
     "tries": [
      {
-      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-14T21%3A00%3A00Z",
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_aod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-15T06%3A00%3A00Z",
       "method": "GET",
-      "asked_at": "2026-09-14T23:29:16Z",
-      "got_at": "2026-09-14T23:29:17Z",
-      "ms": 1966,
+      "asked_at": "2026-09-15T08:08:32Z",
+      "got_at": "2026-09-15T08:08:37Z",
+      "ms": 4057,
       "http": 200,
       "bytes": 86,
-      "server_date": "Mon, 14 Sep 2026 23:29:17 GMT",
-      "last_modified": "Mon, 14 Sep 2026 23:29:23 GMT",
+      "server_date": "Tue, 15 Sep 2026 08:08:36 GMT",
+      "last_modified": "Tue, 15 Sep 2026 08:08:42 GMT",
       "error": null,
-      "refers_to": "2026-09-14T21:00:00Z",
+      "refers_to": "2026-09-15T06:00:00Z",
       "verdict": "hit"
      }
     ]
    },
    "dust": {
     "status": "ok",
-    "newest": "2026-09-14T21:00:00Z",
+    "newest": "2026-09-15T06:00:00Z",
     "lag_slots": 0,
     "tries": [
      {
-      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-14T21%3A00%3A00Z",
+      "url": "https://eccharts.ecmwf.int/wms/?token=public&service=WMS&request=GetMap&version=1.3.0&layers=composition_duaod550&styles=&crs=EPSG%3A3857&bbox=-20037508%2C-20037508%2C20037508%2C20037508&width=2&height=2&format=image%2Fpng&transparent=true&time=2026-09-15T06%3A00%3A00Z",
       "method": "GET",
-      "asked_at": "2026-09-14T23:29:17Z",
-      "got_at": "2026-09-14T23:29:19Z",
-      "ms": 1846,
+      "asked_at": "2026-09-15T08:08:37Z",
+      "got_at": "2026-09-15T08:08:38Z",
+      "ms": 1871,
       "http": 200,
       "bytes": 86,
-      "server_date": "Mon, 14 Sep 2026 23:29:19 GMT",
-      "last_modified": "Mon, 14 Sep 2026 23:29:25 GMT",
+      "server_date": "Tue, 15 Sep 2026 08:08:38 GMT",
+      "last_modified": "Tue, 15 Sep 2026 08:08:44 GMT",
       "error": null,
-      "refers_to": "2026-09-14T21:00:00Z",
+      "refers_to": "2026-09-15T06:00:00Z",
       "verdict": "hit"
      }
     ]
    },
    "ecmwf": {
     "status": "stale",
-    "newest": "2026-09-14 12z",
+    "newest": "2026-09-15 00z",
     "lag_slots": 1,
     "tries": [
      {
-      "url": "https://data.ecmwf.int/forecasts/20260914/18z/ifs/0p25/oper/",
+      "url": "https://data.ecmwf.int/forecasts/20260915/06z/ifs/0p25/oper/",
       "method": "HEAD",
-      "asked_at": "2026-09-14T23:29:19Z",
-      "got_at": "2026-09-14T23:29:20Z",
-      "ms": 744,
+      "asked_at": "2026-09-15T08:08:38Z",
+      "got_at": "2026-09-15T08:08:40Z",
+      "ms": 1640,
       "http": 404,
       "bytes": 0,
       "server_date": null,
       "last_modified": null,
       "error": "HTTP 404",
-      "refers_to": "2026-09-14 18z",
+      "refers_to": "2026-09-15 06z",
       "verdict": "absent"
      },
      {
-      "url": "https://data.ecmwf.int/forecasts/20260914/12z/ifs/0p25/oper/",
+      "url": "https://data.ecmwf.int/forecasts/20260915/00z/ifs/0p25/oper/",
       "method": "HEAD",
-      "asked_at": "2026-09-14T23:29:20Z",
-      "got_at": "2026-09-14T23:29:21Z",
-      "ms": 586,
+      "asked_at": "2026-09-15T08:08:40Z",
+      "got_at": "2026-09-15T08:08:41Z",
+      "ms": 990,
       "http": 200,
       "bytes": 0,
       "server_date": null,
-      "last_modified": "Mon, 14 Sep 2026 19:34:00 GMT",
+      "last_modified": "Tue, 15 Sep 2026 07:34:00 GMT",
       "error": null,
-      "refers_to": "2026-09-14 12z",
+      "refers_to": "2026-09-15 00z",
       "verdict": "hit"
      }
     ]
    }
   }
  },
- "generated_at": "2026-09-14T23:29:15Z",
+ "generated_at": "2026-09-15T08:08:32Z",
  "state": "warn",
  "fails": [],
  "warns": [
@@ -546,7 +546,7 @@
   },
   {
    "c": "aq_missing",
-   "v": "01/09, 04/09"
+   "v": "04/09, 16/09"
   },
   {
    "c": "layer_stale",
